@@ -7,6 +7,25 @@ sudo apt install ufw -y
 sudo ufw reset
 
 #ask what things are installed
+
+# have a text file with as many programs as we can think of, then use a for loop running cat to get each program
+# individually. We can then ask if the program is installed, and set a boolean with the name of the selected program
+# and audit accordingly
+#
+# In the future I would like to automatically read all installed apt and snap packages and write them to either an array
+# or a file that this section can read
+
+#for i in `cat programs.txt`
+#do 
+#    echo $i + "?"
+#    read input
+#    if [ "$input" = "y" ]; then
+#    $i=TRUE
+#fi
+
+#done
+
+
 echo SSH?
 read ssh
 if [ "$ssh" = "y" ]; then
