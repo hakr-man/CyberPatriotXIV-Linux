@@ -6,8 +6,8 @@ echo "apt-get update/upgrade complete" >> log.txt
 else
 echo "apt-get update/upgrade failed" >> log.txt
 fi
-#get installed programs to installed.txt
-dpkg -l > installed.txt
+#get installed programs to programs.txt
+dpkg -l > programs.txt
 
 # In the future I would like to automatically read all installed apt and snap packages and write them to either an array
 # or a file that this section can read
