@@ -1,56 +1,43 @@
 #!/bin/bash
 #update
 sudo apt-get update && sudo apt-get upgrade
-
-#UFW
-sudo apt install ufw -y
-sudo ufw reset
-
+if $? = 0 then
+echo "apt-get update/upgrade complete" >> log.txt
+else
+echo "apt-get update/upgrade failed" >> log.txt
+fi
 #ask what things are installed
 
-# have a text file with as many programs as we can think of, then use a for loop running cat to get each program
-# individually. We can then ask if the program is installed, and set a boolean with the name of the selected program
-# and audit accordingly
-#
 # In the future I would like to automatically read all installed apt and snap packages and write them to either an array
 # or a file that this section can read
 
-#for i in `cat programs.txt`
-#do 
-#    echo $i + "?"
-#    read input
-#    if [ "$input" = "y" ]; then
-#    $i=TRUE
-#fi
+awk 'NR==FNR {a[$1]++; next} $1 in a' badthings.txt programs.txt >> toremove.txt #saves all bad programs to file
+echo "wrote bad programs to toremove.txt" >> log.txt
+# need an input for all critcal programs, and then to set booleans accordingly to use throughout the script
+# gonna use a text file with all critcal programs manually typed in from the README.
 
-#done
-
-
-echo SSH?
-read ssh
-if [ "$ssh" = "y" ]; then
-sudo ufw limit 22/tcp
-echo allowing port 22
+#UFW
+sudo apt install ufw -y | echo "installed ufw" >> log.txt
+sudo ufw reset | echo "reset ufw" >> log.txt
+# start of ufw
+if grep -q ssh "critical.txt"; then
+  sudo ufw limit 22/tcp
+  echo 'allowed port 22/tcp for ssh' >> log.txt
 fi
-
-echo Apache2 or nginx?
-read webserver
-if [ "$webserver" = "y" ]; then
-echo allowing ports 80&443
-sudo ufw allow 80/tcp && sudo ufw allow 443/tcp
+if grep -q webserver "critical.txt"; then
+    sudo ufw allow 80/tcp && sudo ufw allow 443/tcp
+    echo 'allowed port 80/tcp & 443/tcp' >> log.txt
 fi
-
-echo FTP?
-read ftp
-if [ "$ftp" = "y" ]; then
-echo allowing port 22
-sudo ufw limit 22/tcp
-
+if grep -q ftp "critical.txt"; then
+sudo ufw allow 22/tcp
+echo 'allowed port 22' >> log.txt
 fi
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw status
-sudo ufw enable
+echo 'set ufw default rules' >> log.txt
+sudo ufw status >> log.txt
+sudo ufw enable >> log.txt
+echo ufw enabled >> log.txt
 
 
 
