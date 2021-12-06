@@ -74,17 +74,22 @@ service nis stop
 systemctl disable nis
 service squid stop
 systemctl disable squid
+for i in {1..5} 
+do
+echo 'REMEMBER TO RESTART CRITICAL SERVICES!' >> log.txt
+done
 
 # just a reminder that # is to comment and that capital letters screw up cmds
-
+#this remove one-liner is still dumb rn, woring on modular uninstall section
 sudo apt-get remove --purge netcat-openbsd netcat-traditional openbsd-inetd kismet wireshark nmap zenmap ophcrack john apache2 nginx nginx-common nginx-full bind9 rpcbind rsh-server rsh-client rsh-redone-client pure-ftpd samba os-prober freeciv telnet telnetd telnet-server talk tcpd tcpdump telepathy remmina ppp smbclient libsmbclient mysql-server postgresql crack crack-common logkeys hydra fakeroot nikto bind cupsd vuze vsftpd ftp aisleriot nis ldap-utils transmission transmissions-gtk qbittorrent nzbget sabnzbd sabnzbdplus docker
-
+echo 'removed bad programs' >> log.txt
 #Security
 sudo apt install clamtk
+echo 'installed clamtk' >> log.txt
 #Logs
 sudo apt install auditd
 auditctl -e 1
-
+echo 'set up logs' >> log.txt
 #MOTD/Banners
 chown root:root /etc/motd
 chmod 644 /etc/motd
@@ -96,16 +101,8 @@ echo user-db:user
 system-db:gdm 
 file-db:/usr/share/gdm/greeter-dconf-defaults "" > echo /etc/dconf/profile/gdm
 dconf update
-
-
-
-
-
-
-
-
-
-
-
-
-
+echo 'motd/banners done' >> log.txt
+#LYNIS TIME
+#rushing to get a release out before next comp so gonna cut automatic auditing, will write lynis output to lynis.txt
+sudo apt-get install lynis
+echo 'lynis installed' >> log.txt
