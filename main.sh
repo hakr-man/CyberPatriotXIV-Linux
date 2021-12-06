@@ -6,7 +6,8 @@ echo "apt-get update/upgrade complete" >> log.txt
 else
 echo "apt-get update/upgrade failed" >> log.txt
 fi
-#ask what things are installed
+#get installed programs to installed.txt
+dpkg -l > installed.txt
 
 # In the future I would like to automatically read all installed apt and snap packages and write them to either an array
 # or a file that this section can read
@@ -41,7 +42,8 @@ echo ufw enabled >> log.txt
 
 
 
-#Services
+#Services 
+#CHANGE THESE TO FOLLOW THE SAME RULES AS UFW/USE INSTALLED PROGRAM LIST
 service apache2 stop
 systemctl disable apache2
 service ssh stop
