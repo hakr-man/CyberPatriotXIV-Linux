@@ -93,18 +93,23 @@ sudo apt install auditd
 auditctl -e 1
 echo 'set up logs' >> log.txt
 #MOTD/Banners
-chown root:root /etc/motd
-chmod 644 /etc/motd
-chown root:root /etc/issue
-chmod 644 /etc/issue
-chown root:root /etc/issue.net
-chmod 644 /etc/issue.net
-echo user-db:user 
-system-db:gdm 
-file-db:/usr/share/gdm/greeter-dconf-defaults "" > echo /etc/dconf/profile/gdm
-dconf update
-echo 'motd/banners done' >> log.txt
+
+
+#DISABLED THIS, IDK WHAT IT REALLY DOES AND I DONT KNOW HOW TO FIX IT
+#chown root:root /etc/motd
+#chmod 644 /etc/motd
+#chown root:root /etc/issue
+#chmod 644 /etc/issue
+#chown root:root /etc/issue.net
+#chmod 644 /etc/issue.net
+#echo user-db:user 
+#system-db:gdm 
+#file-db:/usr/share/gdm/greeter-dconf-defaults "" > echo /etc/dconf/profile/gdm
+#dconf update
+#echo 'motd/banners done' >> log.txt
 #LYNIS TIME
 #rushing to get a release out before next comp so gonna cut automatic auditing, will write lynis output to lynis.txt
 sudo apt-get install lynis
 echo 'lynis installed' >> log.txt
+./lynis audit system > lynix.txt
+echo 'lynis written' >> log.txt
