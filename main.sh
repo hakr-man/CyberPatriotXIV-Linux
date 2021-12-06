@@ -99,6 +99,7 @@ sudo apt install auditd
 auditctl -e 1
 
 #MOTD/Banners
+<<comment
 chown root:root /etc/motd
 chmod 644 /etc/motd
 chown root:root /etc/issue
@@ -109,7 +110,7 @@ echo user-db:user
 system-db:gdm 
 file-db:/usr/share/gdm/greeter-dconf-defaults "" > echo /etc/dconf/profile/gdm
 dconf update
-
+comment
 
 
 
