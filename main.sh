@@ -94,18 +94,6 @@ auditctl -e 1
 echo 'set up logs' >> log.txt
 #MOTD/Banners
 
-chown root:root /etc/motd
-chmod 644 /etc/motd
-chown root:root /etc/issue
-chmod 644 /etc/issue
-chown root:root /etc/issue.net
-chmod 644 /etc/issue.net
-echo user-db:user 
-system-db:gdm 
-file-db:/usr/share/gdm/greeter-dconf-defaults "" > echo /etc/dconf/profile/gdm
-dconf update
-comment
-
 #DISABLED THIS, IDK WHAT IT REALLY DOES AND I DONT KNOW HOW TO FIX IT
 #chown root:root /etc/motd
 #chmod 644 /etc/motd
