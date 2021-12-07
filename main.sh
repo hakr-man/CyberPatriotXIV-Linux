@@ -2,9 +2,9 @@
 #update
 sudo apt-get update && sudo apt-get upgrade
 if $? = 0 then
-echo "apt-get update/upgrade complete" >> log.txt
-else
-echo "apt-get update/upgrade failed" >> log.txt
+  echo "apt-get update/upgrade complete" >> log.txt
+  else
+  echo "apt-get update/upgrade failed" >> log.txt
 fi
 #get installed programs to programs.txt
 dpkg -l > programs.txt
