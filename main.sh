@@ -111,5 +111,5 @@ echo 'set up logs' >> log.txt
 #rushing to get a release out before next comp so gonna cut automatic auditing, will write lynis output to lynis.txt
 sudo apt-get install lynis
 echo 'lynis installed' >> log.txt
-./lynis audit system > lynix.txt
+lynis audit system > lynix.txt
 echo 'lynis written' >> log.txt
