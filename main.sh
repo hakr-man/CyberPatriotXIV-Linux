@@ -1,6 +1,18 @@
 #!/bin/bash
+#check for root
+CheckRoot()
+{
+   # If we are not running as root we exit the program
+   if [ `id -u` != 0 ]
+   then
+      echo "ERROR: You must be root user to run this program"
+      echo "ERROR: You must be root user to run this program" >> log.txt
+      exit
+   fi
+}
+
 #update
-sudo apt-get update && sudo apt-get upgrade
+ apt-get update &&  apt-get upgrade
 if $? = 0 
 
 then
@@ -20,26 +32,26 @@ echo "wrote bad programs to toremove.txt" >> log.txt
 # gonna use a text file with all critcal programs manually typed in from the README.
 
 #UFW
-sudo apt install ufw -y | echo "installed ufw" >> log.txt
-sudo ufw reset | echo "reset ufw" >> log.txt
+ apt install ufw -y | echo "installed ufw" >> log.txt
+ ufw reset | echo "reset ufw" >> log.txt
 # start of ufw
 if grep -q ssh "critical.txt"; then
-  sudo ufw limit 22/tcp
+   ufw limit 22/tcp
   echo 'allowed port 22/tcp for ssh' >> log.txt
 fi
 if grep -q webserver "critical.txt"; then
-    sudo ufw allow 80/tcp && sudo ufw allow 443/tcp
+     ufw allow 80/tcp &&  ufw allow 443/tcp
     echo 'allowed port 80/tcp & 443/tcp' >> log.txt
 fi
 if grep -q ftp "critical.txt"; then
-sudo ufw allow 22/tcp
+ ufw allow 22/tcp
 echo 'allowed port 22' >> log.txt
 fi
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
+ ufw default deny incoming
+ ufw default allow outgoing
 echo 'set ufw default rules' >> log.txt
-sudo ufw status >> log.txt
-sudo ufw enable >> log.txt
+ ufw status >> log.txt
+ ufw enable >> log.txt
 echo ufw enabled >> log.txt
 
 
@@ -85,13 +97,13 @@ done
 
 # just a reminder that # is to comment and that capital letters screw up cmds
 #this remove one-liner is still dumb rn, woring on modular uninstall section
-sudo apt-get remove --purge netcat-openbsd netcat-traditional openbsd-inetd kismet wireshark nmap zenmap ophcrack john apache2 nginx nginx-common nginx-full bind9 rpcbind rsh-server rsh-client rsh-redone-client pure-ftpd samba os-prober freeciv telnet telnetd telnet-server talk tcpd tcpdump telepathy remmina ppp smbclient libsmbclient mysql-server postgresql crack crack-common logkeys hydra fakeroot nikto bind cupsd vuze vsftpd ftp aisleriot nis ldap-utils transmission transmissions-gtk qbittorrent nzbget sabnzbd sabnzbdplus docker
+ apt-get remove --purge netcat-openbsd netcat-traditional openbsd-inetd kismet wireshark nmap zenmap ophcrack john apache2 nginx nginx-common nginx-full bind9 rpcbind rsh-server rsh-client rsh-redone-client pure-ftpd samba os-prober freeciv telnet telnetd telnet-server talk tcpd tcpdump telepathy remmina ppp smbclient libsmbclient mysql-server postgresql crack crack-common logkeys hydra fakeroot nikto bind cupsd vuze vsftpd ftp aisleriot nis ldap-utils transmission transmissions-gtk qbittorrent nzbget sabnzbd sabnzbdplus docker
 echo 'removed bad programs' >> log.txt
 #Security
-sudo apt install clamtk
+ apt install clamtk
 echo 'installed clamtk' >> log.txt
 #Logs
-sudo apt install auditd
+ apt install auditd
 auditctl -e 1
 echo 'set up logs' >> log.txt
 #MOTD/Banners
@@ -110,7 +122,7 @@ echo 'set up logs' >> log.txt
 #echo 'motd/banners done' >> log.txt
 #LYNIS TIME
 #rushing to get a release out before next comp so gonna cut automatic auditing, will write lynis output to lynis.txt
-sudo apt-get install lynis
+ apt-get install lynis
 echo 'lynis installed' >> log.txt
 lynis audit system > lynix.txt
 echo 'lynis written' >> log.txt
