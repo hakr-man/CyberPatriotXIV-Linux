@@ -1,9 +1,11 @@
 #!/bin/bash
 #check for root
+echo "" > log.txt
+echo "log.txt created" >> log.txt
 CheckRoot()
 {
    # If we are not running as root we exit the program
-   if [ `id -u` != 0 ]
+   if [ 'id -u' != 0 ]
    then
       echo "ERROR: You must be root user to run this program"
       echo "ERROR: You must be root user to run this program" >> log.txt
@@ -13,13 +15,15 @@ CheckRoot()
 
 #update
  apt-get update &&  apt-get upgrade
-if $? = 0 
-
+if $?=0
 then
   echo "apt-get update/upgrade complete" >> log.txt
 else
   echo "apt-get update/upgrade failed" >> log.txt
 fi
+#set auto upgrades
+cat updates.txt > /etc/apt/apt.conf.d/20auto-upgrades
+
 #get installed programs to programs.txt
 dpkg -l > programs.txt
 
@@ -32,8 +36,10 @@ echo "wrote bad programs to toremove.txt" >> log.txt
 # gonna use a text file with all critcal programs manually typed in from the README.
 
 #UFW
- apt install ufw -y | echo "installed ufw" >> log.txt
- ufw reset | echo "reset ufw" >> log.txt
+ apt install ufw -y
+ echo "installed ufw" >> log.txt
+ ufw reset
+ echo "reset ufw" >> log.txt
 # start of ufw
 if grep -q ssh "critical.txt"; then
    ufw limit 22/tcp
@@ -92,13 +98,13 @@ service squid stop
 systemctl disable squid
 for i in {1..5} 
 do
-echo 'REMEMBER TO RESTART CRITICAL SERVICES!' >> log.txt
+echo "$i"+'REMEMBER TO RESTART CRITICAL SERVICES!'
 done
 
 # just a reminder that # is to comment and that capital letters screw up cmds
 #this remove one-liner is still dumb rn, woring on modular uninstall section
- apt-get remove --purge netcat-openbsd netcat-traditional openbsd-inetd kismet wireshark nmap zenmap ophcrack john apache2 nginx nginx-common nginx-full bind9 rpcbind rsh-server rsh-client rsh-redone-client pure-ftpd samba os-prober freeciv telnet telnetd telnet-server talk tcpd tcpdump telepathy remmina ppp smbclient libsmbclient mysql-server postgresql crack crack-common logkeys hydra fakeroot nikto bind cupsd vuze vsftpd ftp aisleriot nis ldap-utils transmission transmissions-gtk qbittorrent nzbget sabnzbd sabnzbdplus docker
-echo 'removed bad programs' >> log.txt
+# apt-get remove --purge netcat-openbsd netcat-traditional openbsd-inetd kismet wireshark nmap zenmap ophcrack john apache2 nginx nginx-common nginx-full bind9 rpcbind rsh-server rsh-client rsh-redone-client pure-ftpd samba os-prober freeciv telnet telnetd telnet-server talk tcpd tcpdump telepathy remmina ppp smbclient libsmbclient mysql-server postgresql crack crack-common logkeys hydra fakeroot nikto bind cupsd vuze vsftpd ftp aisleriot nis ldap-utils transmission transmissions-gtk qbittorrent nzbget sabnzbd sabnzbdplus docker
+#echo 'removed bad programs' >> log.txt
 #Security
  apt install clamtk
 echo 'installed clamtk' >> log.txt
